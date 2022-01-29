@@ -4,9 +4,10 @@ const user = require('../../models/User');
 const profile = require('../../models/Profile');
 const auth = require('../../middleware/auth-middleware');
 const mongoose = require('mongoose');
+const axios = require('axios');
+const config = require('config');
 const {check, validationResult} = require('express-validator');
-const { Router } = require('express');
-const { get } = require('config');
+const { Router, response } = require('express');
 
 // @route  GET api/profile/me
 // @desc   Display own profile
@@ -220,6 +221,26 @@ router.delete('/education/:educID', auth, async(req, res) => {
     } catch (error) {
         console.error(error.message);
         res.status(500).send('Server Error')
+    }
+});
+
+//GET GITHUB PROFILE
+//Route will be api/profile/github/:username
+router.get('/github/:username', async(req, res) => {
+    try {
+        const uri = encodeURI(
+          `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+        );
+        const headers = {
+          'user-agent': 'node.js',
+          Authorization: `token ${config.get('githubClientID')}`
+        };
+    
+        const gitHubResponse = await axios.get(uri, { headers });
+        return res.json(gitHubResponse.data);
+    } catch (err) {
+        console.error(err.message);
+        return res.status(404).json({ msg: 'No Github profile found' });
     }
 })
 
