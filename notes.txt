@@ -1,0 +1,7 @@
+import {connect} from 'react-redux';
+
+connect - use to connect action reducers to react component.
+
+
+to use connect, it need to wrap on export default component.
+export default connect(mapDispatchToProps,{actions you want to import})(reactComponentName) 

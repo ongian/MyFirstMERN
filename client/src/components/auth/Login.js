@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, Navigate } from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../actions/auth';
 
-const Login = () => {
+const Login = ({login, isAuthenticated}) => {
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -18,27 +20,33 @@ const Login = () => {
     }
 
     const submitForm = async(e) => {
-        console.log(formData);
         e.preventDefault();
-        const newUser = {
-            email, 
-            password,
-        }
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-            const body = JSON.stringify(newUser);
-            const res = await axios.post('/api/auth', body, config);
-            console.log(res.data)
-        } catch (error) {
-            console.log(error.message)
-        }
+        
+        login(email, password);
+        // console.log(formData);
+        // const newUser = {
+        //     email, 
+        //     password,
+        // }
+        // try {
+        //     const config = {
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     };
+        //     const body = JSON.stringify(newUser);
+        //     const res = await axios.post('/api/auth', body, config);
+        //     console.log(res.data)
+        // } catch (error) {
+        //     console.log(error.message)
+        // }
        
     }
 
+    //redirect on authSuccess
+    if(isAuthenticated){
+        return <Navigate to="/dashboard" />;
+    }
     return ( <section className="container">
         <h1 className="large text-primary">Sign In</h1>
         <p className="lead"><i className="fas fa-user"></i> SignIn To Your Account</p>
@@ -67,5 +75,14 @@ const Login = () => {
         </p>
     </section> );
 }
+
+Login.propTypes = {
+    login: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
+}
  
-export default Login;
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, {login})(Login);
