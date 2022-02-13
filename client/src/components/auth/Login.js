@@ -23,23 +23,7 @@ const Login = ({login, isAuthenticated}) => {
         e.preventDefault();
         
         login(email, password);
-        // console.log(formData);
-        // const newUser = {
-        //     email, 
-        //     password,
-        // }
-        // try {
-        //     const config = {
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         }
-        //     };
-        //     const body = JSON.stringify(newUser);
-        //     const res = await axios.post('/api/auth', body, config);
-        //     console.log(res.data)
-        // } catch (error) {
-        //     console.log(error.message)
-        // }
+  
        
     }
 
@@ -50,7 +34,7 @@ const Login = ({login, isAuthenticated}) => {
     return ( <section className="container">
         <h1 className="large text-primary">Sign In</h1>
         <p className="lead"><i className="fas fa-user"></i> SignIn To Your Account</p>
-        <form className="form" onSubmit={(e) => submitForm(e)}>
+        <form className="form" onSubmit={submitForm}>
             <div className="form-group">
                 <input onChange={e => onChangeInput(e)} value={email} type="email" placeholder="Email Address" name="email" required />
                 <small className="form-text"

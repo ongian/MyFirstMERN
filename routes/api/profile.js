@@ -6,35 +6,35 @@ const auth = require('../../middleware/auth-middleware');
 const mongoose = require('mongoose');
 const axios = require('axios');
 const config = require('config');
+const normalize = require('normalize-url');
 const {check, validationResult} = require('express-validator');
-const { Router, response } = require('express');
-
+const checkObjectID = require('../../middleware/checkObjectID');
 // @route  GET api/profile/me
 // @desc   Display own profile
 // @access Private
 router.get('/me', auth, async (req, res) => {
     try {
         const userProfile = await profile.findOne({user: req.user.userId}).populate('user', [
-            'user',
+            'name',
             'avatar'
         ]);
         if(!userProfile){
-            res.status(400).json({msg: 'No profile found for the current user!'})
+           return res.status(400).json({msg: 'No profile found for the current user!'})
         }
         res.json(userProfile)
     } catch(error){
         console.error(error.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
     }
 });
 
-// @route  GET api/profile/me
-// @desc   Display Profiles
+// @route  POST api/profile
+// @desc   Create or update Profiles
 // @access Private
 router.post('/', [
     auth, [
-        check('status', 'Status is required').not().isEmpty(),
-        check('skills', 'Skills is required').not().isEmpty()
+        check('status', 'Status is required').notEmpty(),
+        check('skills', 'Skills is required').notEmpty()
     ],
     async(req, res) => {
         const profilePostError = validationResult(req);
@@ -59,8 +59,10 @@ router.post('/', [
             website: website && website !== ''
             ? normalize(website, { forceHttps: true })
             : '',
-            skills: skills.split(',').map(s => s.trim()),
-            ...rest
+            skills: Array.isArray(skills)
+            ? skills
+            : skills.split(',').map((skill) => ' ' + skill.trim()),
+          ...rest
         };
         const socialMedia = { youtube, twitter, instagram, linkedin, facebook };
 
@@ -101,8 +103,8 @@ router.get('/', async(req, res) => {
 
 //Get the profiles by UserID
 
-router.get('/user/:userId', async(req, res) => {
-
+router.get('/user/:userId', checkObjectID('userId'), async(req, res) => {
+    
     //check if userId object is available and valid objectID in mongoDB
     if (!mongoose.Types.ObjectId.isValid(req.params.userId)){
         return res.status(400).json({ msg: 'Invalid user ID' });
