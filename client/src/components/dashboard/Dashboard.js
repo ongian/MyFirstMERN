@@ -5,6 +5,8 @@ import { getCurrentProfile } from '../../actions/profile';
 import Loader from '../layout/loader/Loader';
 import {Link} from 'react-router-dom';
 import DashboardAction from './DashboardAction';
+import Experiences from './Experiences';
+import Educations from './Educations';
 const Dashboard = ({getCurrentProfile, auth: {user}, profile : {profile, loading}}) => {
     useEffect(() => {
         getCurrentProfile()
@@ -17,7 +19,17 @@ const Dashboard = ({getCurrentProfile, auth: {user}, profile : {profile, loading
         <p className="lead">
             Welcome {user && user.name}
         </p>
-        {profile !== null ? <DashboardAction /> : <p>Don't have yet a profile! <Link to="/create-profile">Create a profile</Link></p>}
+        {
+            profile !== null ? (
+                <>
+                    <DashboardAction />
+                    <Educations educ={profile.education} />
+                    <Experiences exp={profile.experience} />
+                    
+                </>) : 
+                <p>Don't have yet a profile! <Link to="/create-profile">Create a profile</Link></p>
+        }
+
     </section>;
 }
  
