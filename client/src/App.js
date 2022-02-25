@@ -17,6 +17,7 @@ import { LOGOUT } from './actions/types';
 import EditProfile from './components/dashboard/profile-form/EditProfile';
 import AddExp from './components/dashboard/profile-form/AddExp';
 import AddEduc from './components/dashboard/profile-form/AddEduc';
+import Profiles from './components/profiles/Profiles';
 
 const App = () => {
   useEffect(() => {
@@ -24,7 +25,7 @@ const App = () => {
       setAuthToken(localStorage.token);
     }
     store.dispatch(authSucess());
-
+    
     window.addEventListener('storage', () => {
       if (!localStorage.token) store.dispatch({ type: LOGOUT });
     });
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/" element={ <Landing /> } />
             <Route path="/login" element={ <Login /> } />
             <Route path="/register" element={ <Register /> } />
+            <Route path="/profiles" element={ <Profiles /> } />
             <Route path="/dashboard" element={ <PrivateRoute><Dashboard /></PrivateRoute> } />
             <Route path="/create-profile" element={<PrivateRoute><CreateProfile /></PrivateRoute>} />
             <Route path="/edit-profile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />

@@ -8,7 +8,9 @@ const axios = require('axios');
 const config = require('config');
 const normalize = require('normalize-url');
 const {check, validationResult} = require('express-validator');
+const Post = require('../../models/Profile');
 const checkObjectID = require('../../middleware/checkObjectID');
+
 // @route  GET api/profile/me
 // @desc   Display own profile
 // @access Private
@@ -90,7 +92,6 @@ router.post('/', [
 ])
 
 //Get the profiles
-
 router.get('/', async(req, res) => {
     try {
         const myProfile = await profile.find().populate('user', ['name', 'avatar']);
@@ -100,6 +101,7 @@ router.get('/', async(req, res) => {
         res.status(500).send('Failed to get profile info!')
     }
 })
+
 
 //Get the profiles by UserID
 
@@ -129,6 +131,8 @@ router.get('/user/:userId', checkObjectID('userId'), async(req, res) => {
 //Delete user's profile
 router.delete('/', auth, async(req, res) => {
     try {
+        //remove post of user
+        Post.deleteMany({user: req.user.userId})
         //remove profile
         await profile.findOneAndRemove({user: req.user.userId});
         //remove user

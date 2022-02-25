@@ -5,7 +5,8 @@ import {
     AUTH_SUCCESS,
     LOGIN_SUCCESS,
     LOGIN_ERROR,
-    LOGOUT } from "../actions/types";
+    LOGOUT, 
+    DELETE_ACCOUNT} from "../actions/types";
 
 const initialState = {
     token: localStorage.getItem('token'),
@@ -30,6 +31,7 @@ function auth(state = initialState, action){
         case AUTH_ERROR:
         case LOGIN_ERROR:
         case LOGOUT:
+        case DELETE_ACCOUNT:
             return {
                 ...state,
                 token: null,
