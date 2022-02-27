@@ -18,6 +18,8 @@ import EditProfile from './components/dashboard/profile-form/EditProfile';
 import AddExp from './components/dashboard/profile-form/AddExp';
 import AddEduc from './components/dashboard/profile-form/AddEduc';
 import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
+import Posts from './components/posts/Posts';
 
 const App = () => {
   useEffect(() => {
@@ -42,11 +44,13 @@ const App = () => {
             <Route path="/login" element={ <Login /> } />
             <Route path="/register" element={ <Register /> } />
             <Route path="/profiles" element={ <Profiles /> } />
+            <Route path="/profile/:id" element={ <Profile /> } />
             <Route path="/dashboard" element={ <PrivateRoute><Dashboard /></PrivateRoute> } />
             <Route path="/create-profile" element={<PrivateRoute><CreateProfile /></PrivateRoute>} />
             <Route path="/edit-profile" element={<PrivateRoute><EditProfile /></PrivateRoute>} />
             <Route path="/add-experience" element={<PrivateRoute><AddExp /></PrivateRoute>} />
             <Route path="/add-education" element={<PrivateRoute><AddEduc /></PrivateRoute>} />
+            <Route path="/posts" element={<PrivateRoute><Posts /></PrivateRoute>} />
           </Routes>
         </Fragment>
       </Router>

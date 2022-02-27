@@ -1,6 +1,6 @@
 import api from "../utils/api";
 import { setAlert } from "./alert";
-import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, DELETE_ACCOUNT, GET_ALL_PROFILES, GET_REPOS } from "./types";
+import { CLEAR_PROFILE, GET_PROFILE, PROFILE_ERROR, UPDATE_PROFILE, DELETE_ACCOUNT, GET_ALL_PROFILES, GET_REPOS, NO_REPOS } from "./types";
 
 //GET CURRENT PROFILE
 export const getCurrentProfile = () => async dispatch => {
@@ -70,7 +70,7 @@ export const getGithubRepo = (userName) => async dispatch => {
         })
     } catch (error) {
         dispatch({
-            type: PROFILE_ERROR,
+            type: NO_REPOS,
             payload: {
                 msg: error.response.statusText,
                 status: error.response.status
