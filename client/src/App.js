@@ -20,7 +20,8 @@ import AddEduc from './components/dashboard/profile-form/AddEduc';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
-
+import Post from './components/post/Post';
+import NotFound from './components/layout/NotFound';
 const App = () => {
   useEffect(() => {
     if(localStorage.token){
@@ -51,6 +52,8 @@ const App = () => {
             <Route path="/add-experience" element={<PrivateRoute><AddExp /></PrivateRoute>} />
             <Route path="/add-education" element={<PrivateRoute><AddEduc /></PrivateRoute>} />
             <Route path="/posts" element={<PrivateRoute><Posts /></PrivateRoute>} />
+            <Route path="/post/:id" element={<PrivateRoute><Post /></PrivateRoute>} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </Fragment>
       </Router>

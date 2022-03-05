@@ -64,7 +64,7 @@ router.get('/:postID', auth, async(req, res) => {
             res.status(404).send({msg: 'Post not found!'});
         }
         console.error(error.message);
-        res.status(500).send('Failed to see posts')
+        return res.status(500).send('Failed to see posts')
     }
 })
 
