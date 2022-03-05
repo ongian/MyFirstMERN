@@ -1,5 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://Matmat123:P%40ssw0rd@mernsocialmedia.1plsy.mongodb.net/MernSocialMedia?retryWrites=true&w=majority",
-    "jwtSecret": "matmat",
-    "personalAccessToken": "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"
-}
