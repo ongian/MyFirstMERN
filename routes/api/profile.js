@@ -5,7 +5,6 @@ const profile = require('../../models/Profile');
 const auth = require('../../middleware/auth-middleware');
 const mongoose = require('mongoose');
 const axios = require('axios');
-const config = require('config');
 const normalize = require('normalize-url');
 const {check, validationResult} = require('express-validator');
 const Post = require('../../models/Profile');
